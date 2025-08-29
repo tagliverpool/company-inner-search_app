@@ -55,6 +55,24 @@ if not "initialized" in st.session_state:
     st.session_state.initialized = True
     logger.info(ct.APP_BOOT_MESSAGE)
 
+# -----------------------------
+# データソース選択（ここに追加）
+# -----------------------------
+st.sidebar.title("検索対象の選択")
+
+source_option = st.sidebar.radio(
+    "データソースを選択してください",
+    ("ローカル文書", "Webページ", "両方")
+)
+
+if source_option == "ローカル文書":
+    st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} 配下のファイルを読み込みます")
+elif source_option == "Webページ":
+    st.write(f"🌐 次のURLを読み込みます: {ct.WEB_URL_LOAD_TARGETS}")
+elif source_option == "両方":
+    st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} と 🌐 {ct.WEB_URL_LOAD_TARGETS} の両方を読み込みます")
+
+
 
 ############################################################
 # 4. 初期表示
