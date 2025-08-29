@@ -54,6 +54,8 @@ SUPPORTED_EXTENSIONS = {
 }
 WEB_URL_LOAD_TARGETS = [
 #    "https://generative-ai.web-camp.io/"
+    "https://intra.company.local/rules",
+    "https://wiki.company.local/manuals"
 ]
 
 
