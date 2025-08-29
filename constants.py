@@ -53,7 +53,7 @@ SUPPORTED_EXTENSIONS = {
     ".csv": lambda path: CSVLoader(path, encoding="utf-8")
 }
 WEB_URL_LOAD_TARGETS = [
-    "https://generative-ai.web-camp.io/"
+#    "https://generative-ai.web-camp.io/"
 ]
 
 
