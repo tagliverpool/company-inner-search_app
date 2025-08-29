@@ -39,22 +39,6 @@ logger = logging.getLogger(ct.LOGGER_NAME)
 # 「.env」ファイルから環境変数を読み込み
 load_dotenv() 
 
-try:
-    # 初期化処理（「initialize.py」の「initialize」関数を実行）
-    initialize()
-except Exception as e:
-    # エラーログの出力
-    logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
-    # エラーメッセージの画面表示
-    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
-    # 後続の処理を中断
-    st.stop()
-
-# アプリ起動時のログファイルへの出力
-if not "initialized" in st.session_state:
-    st.session_state.initialized = True
-    logger.info(ct.APP_BOOT_MESSAGE)
-
 # -----------------------------
 # データソース選択（ここに追加）
 # -----------------------------
@@ -71,6 +55,23 @@ elif source_option == "Webページ":
     st.write(f"🌐 次のURLを読み込みます: {ct.WEB_URL_LOAD_TARGETS}")
 elif source_option == "両方":
     st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} と 🌐 {ct.WEB_URL_LOAD_TARGETS} の両方を読み込みます")
+
+
+try:
+    # 初期化処理（「initialize.py」の「initialize」関数を実行）
+    initialize()
+except Exception as e:
+    # エラーログの出力
+    logger.error(f"{ct.INITIALIZE_ERROR_MESSAGE}\n{e}")
+    # エラーメッセージの画面表示
+    st.error(utils.build_error_message(ct.INITIALIZE_ERROR_MESSAGE), icon=ct.ERROR_ICON)
+    # 後続の処理を中断
+    st.stop()
+
+# アプリ起動時のログファイルへの出力
+if not "initialized" in st.session_state:
+    st.session_state.initialized = True
+    logger.info(ct.APP_BOOT_MESSAGE)
 
 
 
