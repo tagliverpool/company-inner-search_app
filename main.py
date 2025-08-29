@@ -30,22 +30,13 @@ source_option = st.sidebar.radio(
     ("ローカル文書", "Webページ", "両方")
 )
 
-# session_state に保持
-st.session_state.source_option = source_option
-
-# 選択に応じて constants の値を一時的に上書き
-if source_option == "ローカル文書":
-    ct.WEB_URL_LOAD_TARGETS = []
-elif source_option == "Webページ":
-    ct.RAG_TOP_FOLDER_PATH = ""
-# 「両方」の場合は変更不要
-
-# 選択状況の表示
 if source_option == "ローカル文書":
     st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} 配下のファイルを読み込みます")
 elif source_option == "Webページ":
     st.write(f"🌐 次のURLを読み込みます: {ct.WEB_URL_LOAD_TARGETS}")
 elif source_option == "両方":
+    st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} と 🌐 {ct.WEB_URL_LOAD_TARGETS} の両方を読み込みます")
+
     st.write(f"📂 {ct.RAG_TOP_FOLDER_PATH} と 🌐 {ct.WEB_URL_LOAD_TARGETS} の両方を読み込みます")
 
 ############################################################
