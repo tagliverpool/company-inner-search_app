@@ -117,14 +117,22 @@ def initialize_retriever():
     # 埋め込みモデル
     embeddings = OpenAIEmbeddings()
     
-    # チャンク分割
+    #問題6で差し替え
+    # 🔹 社員名簿はチャンク分割せず、それ以外は分割
     text_splitter = CharacterTextSplitter(
         chunk_size=ct.CHUNK_SIZE,
         chunk_overlap=ct.CHUNK_OVERLAP,
         separator="\n"
     )
-    splitted_docs = text_splitter.split_documents(docs_all)
 
+    splitted_docs = []
+    for doc in docs_all:
+        filename = doc.metadata.get("source", "")
+        if "社員名簿" in filename:  # 🔹社員名簿ならそのまま追加
+            splitted_docs.append(doc)
+        else:  # それ以外はチャンク分割
+            splitted_docs.extend(text_splitter.split_documents([doc]))
+    
     # ベクターストア作成
     db = Chroma.from_documents(splitted_docs, embedding=embeddings)
     st.session_state.retriever = db.as_retriever(search_kwargs={"k": ct.RETRIEVER_TOP_K})

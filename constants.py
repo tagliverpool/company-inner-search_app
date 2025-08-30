@@ -8,6 +8,10 @@
 from langchain_community.document_loaders import PyMuPDFLoader, Docx2txtLoader, TextLoader
 from langchain_community.document_loaders.csv_loader import CSVLoader
 
+#問題6用に追加
+import os
+from loaders_employee_csv import EmployeeCSVDepartmentLoader 
+
 
 ############################################################
 # 共通変数の定義
@@ -47,17 +51,19 @@ TEMPERATURE = 0.5
 # RAG参照用のデータソース系
 # ==========================================
 RAG_TOP_FOLDER_PATH = "./data"
+#問題6用にSUPPORTED_EXTENSIONSを以下を置換
 SUPPORTED_EXTENSIONS = {
     ".pdf": PyMuPDFLoader,
     ".docx": Docx2txtLoader,
-    ".csv": lambda path: CSVLoader(path, encoding="utf-8"),
-    ".txt": lambda path: TextLoader(path, encoding="utf-8")
+    # .csv は「社員名簿.csv」だけ特別ローダーに差し替え
+    ".csv": lambda path: (
+        EmployeeCSVDepartmentLoader(path)
+        if os.path.basename(path) == "社員名簿.csv"
+        else CSVLoader(path, encoding="utf-8")
+    ),
+    ".txt": lambda path: TextLoader(path, encoding="utf-8"),
 }
-WEB_URL_LOAD_TARGETS = [
-#    "https://generative-ai.web-camp.io/"
-    "https://intra.company.local/rules",
-    "https://wiki.company.local/manuals"
-]
+
 
 
 # ==========================================
